@@ -21,6 +21,6 @@ class WordCounterController < ApplicationController
   def count_words(text)
     return 0 if text.blank?
 
-    text.split(/\s+/).reject(&:blank?).count
+    text.split(/\s+/).compact_blank.count
   end
 end
