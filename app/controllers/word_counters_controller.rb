@@ -1,4 +1,4 @@
-class WordCounterController < ApplicationController
+class WordCountersController < ApplicationController
   def show
     @text = ''
     @word_count = 0

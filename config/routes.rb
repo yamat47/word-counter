@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root 'word_counter#show'
+  root 'word_counters#show'
   
   # Word counter singleton resource
-  resource :word_counter, controller: 'word_counter', only: %i[show create]
+  resource :word_counter, only: %i[show create]
 end
