@@ -1,0 +1,28 @@
+<div class="word-counter-container">
+  <h1 class="word-counter-title">Word Counter</h1>
+  
+  <%= form_with url: word_counter_path, method: :post, local: false, data: { turbo_frame: "word_counts" } do |form| %>
+    <div class="form-group">
+      <%= form.text_area :text, 
+          value: @text,
+          placeholder: "Start typing or paste your text here...",
+          class: "word-counter-textarea",
+          rows: 10,
+          autofocus: true,
+          data: { 
+            controller: "word-counter",
+            action: "input->word-counter#count"
+          } %>
+    </div>
+    
+    <noscript>
+      <div class="form-actions">
+        <%= form.submit "Count Words", class: "btn btn-primary" %>
+      </div>
+    </noscript>
+  <% end %>
+  
+  <turbo-frame id="word_counts">
+    <%= render partial: "counts" %>
+  </turbo-frame>
+</div>

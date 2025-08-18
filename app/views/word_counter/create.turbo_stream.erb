@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "word_counts" do %>
+  <turbo-frame id="word_counts">
+    <%= render partial: "counts" %>
+  </turbo-frame>
+<% end %>
