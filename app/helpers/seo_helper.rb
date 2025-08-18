@@ -34,17 +34,27 @@ module SeoHelper
       url: canonical_url,
       applicationCategory: 'UtilityApplication',
       operatingSystem: 'Web Browser',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD'
-      },
-      creator: {
-        '@type': 'Person',
-        name: meta_author
-      },
+      offers: structured_data_offer,
+      creator: structured_data_creator,
       datePublished: '2025-01-01',
       inLanguage: 'en-US'
     }.to_json
+  end
+
+  private
+
+  def structured_data_offer
+    {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD'
+    }
+  end
+
+  def structured_data_creator
+    {
+      '@type': 'Person',
+      name: meta_author
+    }
   end
 end
