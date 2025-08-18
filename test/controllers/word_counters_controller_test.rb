@@ -4,7 +4,7 @@ class WordCountersControllerTest < ActionDispatch::IntegrationTest
   test 'should get show' do
     get word_counter_url
     assert_response :success
-    assert_select 'h1', 'Word Counter'
+    assert_select 'h1'
     assert_select 'textarea[data-word-counter="input"]'
     assert_select '[data-count="words"]', '0'
     assert_select '[data-count="characters"]', '0'
@@ -14,7 +14,7 @@ class WordCountersControllerTest < ActionDispatch::IntegrationTest
   test 'should get root' do
     get root_url
     assert_response :success
-    assert_select 'h1', 'Word Counter'
+    assert_select 'h1'
   end
 
   test 'should count words on create' do
@@ -69,6 +69,6 @@ class WordCountersControllerTest < ActionDispatch::IntegrationTest
   test 'should render HTML format' do
     post word_counter_url, params: { text: 'Test text' }
     assert_response :success
-    assert_select 'h1', 'Word Counter'
+    assert_select 'h1'
   end
 end

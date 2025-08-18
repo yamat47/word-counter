@@ -4,14 +4,14 @@ class WordCountersTest < ApplicationSystemTestCase
   test 'visiting the index' do
     visit root_url
 
-    assert_selector 'h1', text: 'Word Counter'
+    assert_selector 'h1', text: 'WORD COUNTER'
     assert_selector 'textarea[data-word-counter="input"]'
   end
 
   test 'visiting the word counter page' do
     visit word_counter_url
 
-    assert_selector 'h1', text: 'Word Counter'
+    assert_selector 'h1', text: 'WORD COUNTER'
     assert_selector 'textarea[data-word-counter="input"]'
     assert_selector '.counts-container'
     assert_selector '[data-count="words"]', text: '0'
@@ -85,7 +85,7 @@ class WordCountersTest < ApplicationSystemTestCase
 
     visit word_counter_url
 
-    assert_selector 'h1', text: 'Word Counter'
+    assert_selector 'h1', text: 'WORD COUNTER'
     assert_selector 'textarea[data-word-counter="input"]'
     assert_selector '.counts-container'
   end
