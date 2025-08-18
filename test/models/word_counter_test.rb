@@ -22,14 +22,14 @@ class WordCounterTest < ActiveSupport::TestCase
     test_cases.each do |test_case|
       text = test_case[:text]
       expected = test_case[:expected]
-      
+
       # Simulate the counting logic from the controller
       word_count = if text.blank?
                      0
                    else
                      text.split(/\s+/).compact_blank.count
                    end
-      
+
       assert_equal expected, word_count, "Failed for text: '#{text}'"
     end
   end
@@ -46,9 +46,9 @@ class WordCounterTest < ActiveSupport::TestCase
     test_cases.each do |test_case|
       text = test_case[:text]
       expected = test_case[:expected]
-      
+
       character_count = text.length
-      
+
       assert_equal expected, character_count, "Failed for text: '#{text}'"
     end
   end
@@ -66,9 +66,9 @@ class WordCounterTest < ActiveSupport::TestCase
     test_cases.each do |test_case|
       text = test_case[:text]
       expected = test_case[:expected]
-      
+
       char_no_space_count = text.gsub(/\s/, '').length
-      
+
       assert_equal expected, char_no_space_count, "Failed for text: '#{text}'"
     end
   end
@@ -87,10 +87,10 @@ class WordCounterTest < ActiveSupport::TestCase
       text = test_case[:text]
       expected_words = test_case[:word_count]
       expected_chars = test_case[:char_count]
-      
+
       word_count = text.split(/\s+/).compact_blank.count
       char_count = text.length
-      
+
       assert_equal expected_words, word_count, "Word count failed for: '#{text}'"
       assert_equal expected_chars, char_count, "Char count failed for: '#{text}'"
     end
