@@ -38,8 +38,8 @@ class WordCountersTest < ApplicationSystemTestCase
 
     within '.counts-container' do
       assert_selector '[data-count="words"]', text: '6'
-      assert_selector '[data-count="characters"]', text: '26'  # Fixed count
-      assert_selector '[data-count="characters-no-spaces"]', text: '21'  # Fixed count
+      assert_selector '[data-count="characters"]', text: '26' # Fixed count
+      assert_selector '[data-count="characters-no-spaces"]', text: '21' # Fixed count
     end
   end
 
