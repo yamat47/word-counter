@@ -1,3 +1,22 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="500" height="500" fill="white" rx="40"/>
+  
+  <!-- Black border and interior -->
+  <rect x="10" y="110" width="480" height="280" fill="black" stroke="black" stroke-width="2" rx="20"/>
+  
+  <!-- White background for digits -->
+  <rect x="30" y="130" width="130" height="240" fill="white"/>
+  <rect x="180" y="130" width="140" height="240" fill="white"/>
+  <rect x="340" y="130" width="130" height="240" fill="white"/>
+  
+  <!-- First digit: 0 -->
+  <text x="95" y="295" font-family="Arial, sans-serif" font-size="180" font-weight="bold" text-anchor="middle" fill="black">0</text>
+  
+  <!-- Second digit: 0 -->
+  <text x="250" y="295" font-family="Arial, sans-serif" font-size="180" font-weight="bold" text-anchor="middle" fill="black">0</text>
+  
+  <!-- Third section: degree symbol and 7 -->
+  <circle cx="405" cy="180" r="25" fill="none" stroke="black" stroke-width="15"/>
+  <text x="405" y="330" font-family="Arial, sans-serif" font-size="140" font-weight="bold" text-anchor="middle" fill="black">7</text>
 </svg>
