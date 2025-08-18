@@ -1,0 +1,191 @@
+/* Word Counter Styles - The Rails Way */
+
+/* Reset and Base */
+* {
+  box-sizing: border-box;
+}
+
+/* Container */
+.word-counter-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Typography */
+.word-counter-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.word-counter-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+}
+
+.word-counter-textarea:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.word-counter-textarea::placeholder {
+  color: #999;
+}
+
+/* Button for noscript */
+.form-actions {
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #357abd;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Counts Display */
+.counts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.count-item {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.count-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.count-item:nth-child(2) {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.count-item:nth-child(3) {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.count-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.count-value {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .word-counter-container {
+    padding: 1rem;
+  }
+
+  .word-counter-title {
+    font-size: 2rem;
+  }
+
+  .word-counter-textarea {
+    min-height: 200px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .counts-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .count-value {
+    font-size: 2rem;
+  }
+}
+
+/* Loading State */
+turbo-frame[busy] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .word-counter-container {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+  }
+
+  .word-counter-title {
+    color: #f0f0f0;
+  }
+
+  .word-counter-textarea {
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+    border-color: #404040;
+  }
+
+  .word-counter-textarea:focus {
+    border-color: #4a90e2;
+  }
+
+  .word-counter-textarea::placeholder {
+    color: #666;
+  }
+}

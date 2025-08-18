@@ -1,0 +1,16 @@
+<div class="counts-container">
+  <div class="count-item">
+    <span class="count-label">Words</span>
+    <span class="count-value"><%= number_with_delimiter(@word_count || 0) %></span>
+  </div>
+  
+  <div class="count-item">
+    <span class="count-label">Characters</span>
+    <span class="count-value"><%= number_with_delimiter(@character_count || 0) %></span>
+  </div>
+  
+  <div class="count-item">
+    <span class="count-label">Characters (no spaces)</span>
+    <span class="count-value"><%= number_with_delimiter((@text || '').gsub(/\s/, '').length) %></span>
+  </div>
+</div>
