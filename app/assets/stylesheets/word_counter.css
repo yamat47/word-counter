@@ -40,53 +40,63 @@ html {
 body {
   font-family: var(--font-sans);
   background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
-  min-height: 100vh;
+  height: 100vh;
   color: var(--color-dark);
   line-height: 1.6;
+  overflow: hidden;
 }
 
 /* Container */
 .word-counter-container {
   max-width: 720px;
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: 2rem;
   animation: fadeIn 0.6s ease;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 /* Typography */
 .word-counter-title {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 900;
   color: var(--color-black);
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   text-align: center;
   letter-spacing: -0.03em;
   position: relative;
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 
 .word-counter-title::after {
   content: '';
   position: absolute;
-  bottom: -1rem;
+  bottom: -0.75rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 4px;
+  width: 40px;
+  height: 3px;
   background: var(--color-black);
   border-radius: 2px;
 }
 
 /* Form Elements */
 .form-group {
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .word-counter-textarea {
   width: 100%;
-  min-height: 400px;
-  padding: 2rem;
+  min-height: 200px;
+  flex: 1;
+  padding: 1.5rem;
   font-size: 1.125rem;
   line-height: 1.8;
   font-family: var(--font-mono);
@@ -151,13 +161,14 @@ body {
 .counts-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  flex-shrink: 0;
 }
 
 .count-item {
   background: var(--color-white);
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1rem;
   border: 1px solid var(--color-gray-200);
   text-align: center;
   transition: all var(--transition-base);
@@ -199,7 +210,7 @@ body {
 
 .count-value {
   display: block;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 900;
   line-height: 1;
   color: var(--color-black);
@@ -210,30 +221,35 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .word-counter-container {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
   }
 
   .word-counter-title {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
   }
 
   .word-counter-textarea {
-    min-height: 300px;
-    padding: 1.5rem;
-    font-size: 1rem;
+    min-height: 150px;
+    padding: 1rem;
+    font-size: 0.9rem;
   }
 
   .counts-container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
   }
 
   .count-item {
-    padding: 1.5rem;
+    padding: 1rem 0.5rem;
   }
 
   .count-value {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
+  }
+  
+  .count-label {
+    font-size: 0.65rem;
   }
 }
 
@@ -252,6 +268,41 @@ turbo-frame[busy] {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Disclaimer Section */
+.disclaimer-section {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-gray-50);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.disclaimer-content {
+  color: var(--color-gray-400);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.disclaimer-content p {
+  margin-bottom: 0.25rem;
+}
+
+.disclaimer-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive disclaimer */
+@media (max-width: 768px) {
+  .disclaimer-section {
+    margin-bottom: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .disclaimer-content {
+    font-size: 0.65rem;
   }
 }
 
@@ -297,5 +348,9 @@ turbo-frame[busy] {
   
   .count-item:hover {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  }
+  
+  .disclaimer-section {
+    background: rgba(255, 255, 255, 0.05);
   }
 }

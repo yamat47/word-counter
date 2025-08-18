@@ -1,6 +1,13 @@
 <div class="word-counter-container">
   <h1 class="word-counter-title">Word Counter</h1>
   
+  <div class="disclaimer-section">
+    <div class="disclaimer-content">
+      <p>* Count results are for reference only and may vary based on language and character handling.</p>
+      <p>* We are not responsible for any damages resulting from use of this tool.</p>
+    </div>
+  </div>
+  
   <%= form_with url: word_counter_path, method: :post, local: false, 
                 data: { turbo_frame: "word_counts", word_counter: "form" } do |form| %>
     <div class="form-group">
