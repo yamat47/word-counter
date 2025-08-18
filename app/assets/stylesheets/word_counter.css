@@ -1,159 +1,258 @@
-/* Word Counter Styles - The Rails Way */
+/* Word Counter - Monotone Elegant Design */
+
+/* Variables */
+:root {
+  --color-black: #000000;
+  --color-dark: #1a1a1a;
+  --color-gray-900: #2d2d2d;
+  --color-gray-800: #404040;
+  --color-gray-700: #555555;
+  --color-gray-600: #6b6b6b;
+  --color-gray-500: #808080;
+  --color-gray-400: #999999;
+  --color-gray-300: #b3b3b3;
+  --color-gray-200: #cccccc;
+  --color-gray-100: #e6e6e6;
+  --color-gray-50: #f5f5f5;
+  --color-white: #ffffff;
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.35s ease;
+}
 
 /* Reset and Base */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-white) 100%);
+  min-height: 100vh;
+  color: var(--color-dark);
+  line-height: 1.6;
 }
 
 /* Container */
 .word-counter-container {
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  padding: 4rem 2rem;
+  animation: fadeIn 0.6s ease;
 }
 
 /* Typography */
 .word-counter-title {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 2rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: var(--color-black);
+  margin-bottom: 3rem;
   text-align: center;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.03em;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.word-counter-title::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--color-black);
+  border-radius: 2px;
 }
 
 /* Form Elements */
 .form-group {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
 }
 
 .word-counter-textarea {
   width: 100%;
-  min-height: 300px;
-  padding: 1rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  min-height: 400px;
+  padding: 2rem;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  font-family: var(--font-mono);
+  background: var(--color-white);
+  border: 2px solid var(--color-gray-200);
+  border-radius: 0;
   resize: vertical;
-  transition: border-color 0.2s ease;
-  font-family: inherit;
+  transition: all var(--transition-base);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.word-counter-textarea:hover {
+  border-color: var(--color-gray-400);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .word-counter-textarea:focus {
   outline: none;
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  border-color: var(--color-black);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .word-counter-textarea::placeholder {
-  color: #999;
+  color: var(--color-gray-400);
+  font-style: italic;
 }
 
 /* Button for noscript */
 .form-actions {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
 .btn {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 6px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid var(--color-black);
+  background: var(--color-black);
+  color: var(--color-white);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-primary {
-  background-color: #4a90e2;
-  color: white;
+.btn:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.btn-primary:hover {
-  background-color: #357abd;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Counts Display */
 .counts-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
 .count-item {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1.5rem;
-  border-radius: 12px;
+  background: var(--color-white);
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--color-gray-200);
   text-align: center;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.count-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-black);
+  transform: translateX(-100%);
+  transition: transform var(--transition-slow);
 }
 
 .count-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-black);
 }
 
-.count-item:nth-child(2) {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
-
-.count-item:nth-child(3) {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+.count-item:hover::before {
+  transform: translateX(0);
 }
 
 .count-label {
   display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  opacity: 0.9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-gray-600);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.15em;
 }
 
 .count-value {
   display: block;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 900;
   line-height: 1;
+  color: var(--color-black);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .word-counter-container {
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
 
   .word-counter-title {
-    font-size: 2rem;
+    margin-bottom: 2rem;
   }
 
   .word-counter-textarea {
-    min-height: 200px;
-    font-size: 16px; /* Prevent zoom on iOS */
+    min-height: 300px;
+    padding: 1.5rem;
+    font-size: 1rem;
   }
 
   .counts-container {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
+  }
+
+  .count-item {
+    padding: 1.5rem;
   }
 
   .count-value {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 }
 
 /* Loading State */
 turbo-frame[busy] {
-  opacity: 0.6;
+  opacity: 0.7;
   pointer-events: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Accessibility */
@@ -166,26 +265,37 @@ turbo-frame[busy] {
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
-  .word-counter-container {
-    background-color: #1a1a1a;
-    color: #f0f0f0;
+  :root {
+    --color-white: #1a1a1a;
+    --color-gray-50: #2d2d2d;
+    --color-gray-100: #404040;
+    --color-gray-200: #555555;
+    --color-gray-300: #6b6b6b;
+    --color-gray-400: #808080;
+    --color-gray-500: #999999;
+    --color-gray-600: #b3b3b3;
+    --color-gray-700: #cccccc;
+    --color-gray-800: #e6e6e6;
+    --color-gray-900: #f5f5f5;
+    --color-dark: #ffffff;
+    --color-black: #ffffff;
   }
-
-  .word-counter-title {
-    color: #f0f0f0;
+  
+  body {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   }
-
+  
   .word-counter-textarea {
-    background-color: #2a2a2a;
-    color: #f0f0f0;
-    border-color: #404040;
+    background: #0f0f0f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
-
-  .word-counter-textarea:focus {
-    border-color: #4a90e2;
+  
+  .count-item {
+    background: #0f0f0f;
+    border-color: #333333;
   }
-
-  .word-counter-textarea::placeholder {
-    color: #666;
+  
+  .count-item:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
   }
 }
