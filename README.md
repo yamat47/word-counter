@@ -2,7 +2,7 @@
 
 Counts the words and characters in your text as you type. It is a static single-page app: the text never leaves the browser.
 
-https://yamat47.github.io/word-counter/
+https://word-counter.yamat47.me/
 
 ## What it counts
 
@@ -20,7 +20,7 @@ Everything runs in Docker; nothing else needs to be installed on your machine.
 docker compose up
 ```
 
-Open http://localhost:5173/word-counter/. Edits under `src/` reload in the browser.
+Open http://localhost:5173/. Edits under `src/` reload in the browser.
 
 Dependencies are installed into a Docker volume when the container starts. The `node_modules` directory that appears on the host is an empty mount point.
 
@@ -38,7 +38,7 @@ To add or update a package, run pnpm the same way, for example `docker compose r
 
 ## Deployment
 
-Every push to `main` builds the site and publishes it to GitHub Pages through `.github/workflows/deploy.yml`. The site is served under `/word-counter/`, which is set as `base` in `vite.config.ts`.
+Every push to `main` builds the site and publishes it to GitHub Pages through `.github/workflows/deploy.yml`. The custom domain is set in the repository's Pages settings, and its DNS record lives in [yamat47/infra-yamat47](https://github.com/yamat47/infra-yamat47).
 
 ## Project structure
 
