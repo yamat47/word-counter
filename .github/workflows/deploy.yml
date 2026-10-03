@@ -1,0 +1,52 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+# A rollout in progress finishes before the next one starts.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # checkout
+    steps:
+      - uses: yamat47/github-toolkit/actions/checkout@v1.8.0
+        with:
+          persist-credentials: false
+
+      - uses: yamat47/github-toolkit/actions/setup-node-with-pnpm@v1.8.0
+        with:
+          node-version-file: .node-version
+
+      # CI runs in parallel with this workflow, so the checks that decide
+      # whether the site works are repeated here before anything is published.
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+      - uses: yamat47/github-toolkit/actions/upload-pages-artifact@v1.8.0
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write # deploy-pages creates the deployment
+      id-token: write # deploy-pages proves the artifact came from this workflow
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: yamat47/github-toolkit/actions/deploy-pages@v1.8.0
