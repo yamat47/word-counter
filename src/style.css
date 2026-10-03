@@ -1,0 +1,164 @@
+:root {
+  color-scheme: light dark;
+
+  --paper: #fff;
+  --sheet: #f2f2f2;
+  --ink: #000;
+  --muted: #666;
+
+  --font: 'Bricolage Grotesque Variable', 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --counts-width: 15rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #000;
+    --sheet: #1c1c1c;
+    --ink: #fff;
+    --muted: #a6a6a6;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The whole tool fits one screen: the sheet takes whatever height is left. */
+.app {
+  display: grid;
+  grid-template:
+    'title' auto
+    'sheet' minmax(8rem, 1fr)
+    'counts' auto
+    'notes' auto / minmax(0, 1fr);
+  gap: 1.25rem;
+  height: 100dvh;
+  padding: var(--gutter);
+}
+
+.title {
+  grid-area: title;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sheet {
+  grid-area: sheet;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  background: var(--sheet);
+  color: inherit;
+  font: inherit;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  resize: none;
+}
+
+.sheet::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.sheet:focus-visible {
+  border-color: var(--ink);
+  outline: none;
+}
+
+.counts {
+  grid-area: counts;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem 1.5rem;
+  align-items: end;
+}
+
+/* The figure reads before its label, while the markup keeps term before value. */
+.count {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.count dt {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.count dd {
+  font-size: 1.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.count-primary {
+  grid-row: span 2;
+}
+
+/* 0.62em approximates the advance of one digit; dividing the available width
+   by the figure's length keeps a seven-digit count inside its column. */
+.count-primary dd {
+  --figure-width: 52vw;
+  font-size: min(5.5rem, calc(var(--figure-width) / (var(--figure-length, 1) * 0.62)));
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.notes {
+  grid-area: notes;
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+@media (min-width: 50rem) {
+  .app {
+    grid-template:
+      'title title' auto
+      'sheet counts' minmax(0, 1fr)
+      'notes notes' auto / minmax(0, 1fr) var(--counts-width);
+    column-gap: var(--gutter);
+  }
+
+  .counts {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    row-gap: 1.75rem;
+  }
+
+  .count-primary {
+    grid-row: auto;
+    margin-bottom: 0.75rem;
+  }
+
+  .count-primary dd {
+    --figure-width: var(--counts-width);
+    font-size: min(7.5rem, calc(var(--figure-width) / (var(--figure-length, 1) * 0.62)));
+  }
+}
