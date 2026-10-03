@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim
+FROM node:26-bookworm-slim
 
 # Corepack installs the pnpm version named by "packageManager" in package.json.
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
