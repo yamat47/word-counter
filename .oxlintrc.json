@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error"
+  },
+  "rules": {
+    "import/no-unassigned-import": "off",
+    "typescript/switch-exhaustiveness-check": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-explicit-any": "error"
+  },
+  "ignorePatterns": ["dist", ".claude"]
+}

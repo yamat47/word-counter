@@ -1,73 +1,23 @@
-# syntax=docker/dockerfile:1
-# check=error=true
+FROM node:24-bookworm-slim
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=3.4.5
-FROM ruby:$RUBY_VERSION-slim AS base
+# Corepack installs the pnpm version named by "packageManager" in package.json.
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable pnpm
 
-LABEL fly_launch_runtime="rails"
+WORKDIR /app
 
-# Rails app lives here
-WORKDIR /rails
+# The node_modules volume is created from this directory and inherits its
+# owner; without it the volume would belong to root and pnpm could not write.
+RUN mkdir node_modules && chown node:node /app node_modules
 
-# Update gems and bundler
-RUN gem update --system --no-document && \
-    gem install -N bundler
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Install base packages
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 sqlite3 && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+USER node
 
-# Set production environment
-ENV BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development:test" \
-    RAILS_ENV="production"
+# pnpm fetches its own binary on first use. Running it here keeps that
+# download in the image; otherwise every new container repeats it.
+COPY package.json ./
+RUN corepack install && pnpm --version
 
-
-# Throw-away build stage to reduce size of final image
-FROM base AS build
-
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libyaml-dev pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Install application gems
-COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
-
-# Copy application code
-COPY . .
-
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
-# Final stage for app image
-FROM base
-
-
-# Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
-RUN groupadd --system --gid 1000 rails && \
-    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    mkdir -p /data log && \
-    chown -R 1000:1000 db log tmp /data
-USER 1000:1000
-
-# Deployment options
-ENV DATABASE_URL="sqlite3:///data/production.sqlite3"
-
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-VOLUME /data
-CMD ["./bin/rails", "server"]
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["pnpm", "dev"]

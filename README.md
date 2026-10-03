@@ -1,112 +1,58 @@
 # Word Counter
 
-A simple and elegant web-based word counter application built with Ruby on Rails. Count words, characters, and paragraphs in real-time with a clean, minimalist interface.
+Counts the words and characters in your text as you type. It is a static single-page app: the text never leaves the browser.
 
-## Features
+https://yamat47.github.io/word-counter/
 
-- **Real-time counting**: Instant word, character, and paragraph counting as you type
-- **No JavaScript fallback**: Works even with JavaScript disabled (submit button appears)
-- **Responsive design**: Optimized for desktop and mobile devices
-- **Clean UI**: Minimalist, monochrome design for distraction-free use
-- **Turbo-powered**: Uses Hotwire Turbo for seamless interactions
+## What it counts
 
-## Requirements
-
-- Ruby 3.4.5 or higher
-- Rails 8.0.2 or higher
-- SQLite3
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yamat47/word-counter.git
-cd word-counter
-```
-
-2. Install dependencies:
-```bash
-bundle install
-```
-
-3. Setup the database:
-```bash
-rails db:create
-rails db:migrate
-```
-
-4. Start the Rails server:
-```bash
-rails server
-```
-
-5. Open your browser and navigate to `http://localhost:3000`
+| Count                  | How                                                                                             |
+| ---------------------- | ----------------------------------------------------------------------------------------------- |
+| Words                  | Runs of text separated by whitespace. Text written without spaces counts as one word.           |
+| Characters             | Characters as a reader sees them (grapheme clusters), so 👨‍👩‍👧 is 1. Spaces and line breaks count. |
+| Characters (no spaces) | The same, with all whitespace removed first.                                                    |
 
 ## Development
 
-### Running tests
+Everything runs in Docker; nothing else needs to be installed on your machine.
 
-```bash
-# Run all tests
-rails test
-
-# Run system tests
-rails test:system
+```sh
+docker compose up
 ```
 
-### Code quality
+Open http://localhost:5173/word-counter/. Edits under `src/` reload in the browser.
 
-```bash
-# Run RuboCop for code linting
-bundle exec rubocop
+Dependencies are installed into a Docker volume when the container starts. The `node_modules` directory that appears on the host is an empty mount point.
 
-# Run with auto-correction
-bundle exec rubocop -a
+### Checks
+
+```sh
+docker compose run --rm app pnpm test          # unit tests (Vitest)
+docker compose run --rm app pnpm lint          # Oxlint, including type-aware rules
+docker compose run --rm app pnpm typecheck     # tsc
+docker compose run --rm app pnpm format        # Oxfmt (format:check only reports)
+docker compose run --rm app pnpm build         # production build into dist/
 ```
 
-### Security checks
+To add or update a package, run pnpm the same way, for example `docker compose run --rm app pnpm add -D <package>`. The Node.js version is set in two places that must stay equal: `Dockerfile` for development and `.node-version` for CI. After changing it, or the pnpm version in `package.json`, rebuild with `docker compose build`.
 
-```bash
-# Install security tools
-gem install bundler-audit brakeman
+## Deployment
 
-# Run security audit
-bundle-audit check --update
-brakeman -q -w2
-```
+Every push to `main` builds the site and publishes it to GitHub Pages through `.github/workflows/deploy.yml`. The site is served under `/word-counter/`, which is set as `base` in `vite.config.ts`.
 
-## CI/CD
-
-This project uses GitHub Actions for continuous integration. The CI pipeline runs:
-- Unit and system tests
-- RuboCop for code style checking
-- Security audits with Bundler Audit and Brakeman
-
-## Project Structure
+## Project structure
 
 ```
-word-counter/
-├── app/
-│   ├── assets/           # Stylesheets and JavaScript
-│   ├── controllers/      # Rails controllers
-│   ├── views/           # View templates
-│   └── javascript/      # Stimulus controllers
-├── config/              # Application configuration
-├── test/                # Test files
-└── .github/workflows/   # CI configuration
+src/
+  counter.ts   # counting logic, no DOM
+  app.ts       # connects the textarea to the counts
+  main.ts      # entry point
+  style.css
+index.html
+Dockerfile, compose.yaml, docker/   # development container
+.github/workflows/                  # CI and deployment
+.claude/skills/                     # agent skills from yamat47/github-toolkit
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## Disclaimer
 
